@@ -54,11 +54,10 @@ let stream=null, scanTimer=null, busy=false;
 function setStatus(msg,kind=''){statusBox.textContent=msg;statusBox.className='gate-status '+kind;}
 function stopCamera(){if(scanTimer)clearInterval(scanTimer);scanTimer=null;if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}video.pause();video.srcObject=null;video.classList.remove('live');}
 async function verifyCardToken(token){
- if(busy)return;busy=true;stopCamera();setStatus('تمت قراءة البطاقة. جارٍ التحقق من صلاحيتها…');
- try{
-  const response=await fetch('/api/admin/card/verify',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',cache:'no-store',body:JSON.stringify({token})});
+ if(busy)return;busy=true;stopCamera();setStatus('تمت قراءة البطاقة-Type':'application/json'},credentials:'include',cache:'no-store',body:JSON.stringify({token})});
   if(!response.ok)throw new Error(response.status===401?'البطاقة غير معتمدة أو انتهت صلاحيتها.':'خادم التحقق غير جاهز ('+response.status+').');
-  const result=await response.json();
+  const response=await fetch('https://Smart-knowledge-server-production.up.railway.app/api/admin/card/verify',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',cache:'no-store',body:JSON.stringify({token})});
+ 
   if(result.authorized!==true)throw new Error('رفض الخادم صلاحية هذه البطاقة.');
   gate.hidden=true;app.hidden=false;setStatus('تم التحقق بنجاح.','ok');
  }catch(err){setStatus(err.message==='Failed to fetch'?'تعذر الاتصال بخادم التحقق. لم يتم فتح لوحة الإدارة.':err.message,'error');}
@@ -82,4 +81,5 @@ document.getElementById('startNFC').addEventListener('click',async()=>{
 document.getElementById('adminLogout').addEventListener('click',async()=>{try{await fetch('/api/admin/logout',{method:'POST',credentials:'include',cache:'no-store'});}catch(e){}app.hidden=true;gate.hidden=false;setStatus('تم تسجيل الخروج. لوحة الإدارة مقفلة.');showSection('dashboard');});
 // افحص الجلسة القائمة من الخادم عند إعادة فتح الصفحة.
 (async()=>{try{const r=await fetch('/api/admin/session',{credentials:'include',cache:'no-store'});if(r.ok){const d=await r.json();if(d.authorized===true){gate.hidden=true;app.hidden=false;}}}catch(e){/* يبقى القفل ظاهرًا عند غياب الخادم */}})();
-</script></body></html>
+ 
+const r=await fetch('https://Smart-knowledge-server-production.up.railway.app/api/admin/session',{credentials:'include',cache:'no-store'});
