@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const OpenAI = require('openai');
 require('dotenv').config();
+const path = require('path');
 
 const app = express();
 app.use(cors());
@@ -23,6 +24,9 @@ app.post('/api/chat', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+app.get('/smart_knowledge_books_sidebar.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'smart_knowledge_books_sidebar.html'));
 });
 
 const PORT = process.env.PORT || 3000;
