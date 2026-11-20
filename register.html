@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تسجيل الطلاب - المعرفة الذكية</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #18142c 0%, #07070c 70%);
+      color: #fff;
+      padding: 20px;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: #0f101a;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 18px;
+      padding: 26px 22px;
+      box-shadow: 0 0 30px rgba(88, 101, 242, 0.18);
+    }
+    .badge {
+      display: block;
+      width: fit-content;
+      margin: 0 auto 12px;
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #f5c84b;
+      border: 1px solid rgba(245, 200, 75, 0.4);
+      background: rgba(245, 200, 75, 0.08);
+    }
+    h1 {
+      margin: 0 0 6px;
+      text-align: center;
+      font-size: 22px;
+      color: #fff;
+    }
+    p.subtitle {
+      margin: 0 0 20px;
+      text-align: center;
+      font-size: 13px;
+      color: #a5a8c2;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      background: #080910;
+      padding: 5px;
+      border-radius: 12px;
+      border: 1px solid #23253a;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 9px;
+      background: transparent;
+      color: #9ca3af;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #6d4aff, #2563eb);
+      color: #fff;
+      box-shadow: 0 0 14px rgba(109, 74, 255, 0.4);
+    }
+    .form-group {
+      margin-bottom: 13px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      color: #d1d5db;
+      margin-bottom: 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px 13px;
+      border-radius: 10px;
+      border: 1px solid #2b2e48;
+      background: #080910;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+    input:focus, select:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.25);
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 13px;
+      margin-top: 6px;
+      border: none;
+      border-radius: 11px;
+      background: linear-gradient(90deg, #d4af37, #f5c84b);
+      color: #090910;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .status-msg {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 13px;
+      min-height: 20px;
+      color: #38bdf8;
+    }
+    .status-msg.error {
+      color: #f87171;
+    }
+    .hidden {
+      display: none;
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 16px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-card">
+    <span class="badge">SMART KNOWLEDGE • بوابة الطلاب</span>
+    <h1>حساب الطالب</h1>
+    <p class="subtitle">سجّل حسابك للوصول إلى الدروس، المكتبة، والمعلم الذكي</p>
+
+    <div class="tabs">
+      <button type="button" class="tab-btn active" id="tabRegister">إنشاء حساب جديد</button>
+      <button type="button" class="tab-btn" id="tabLogin">تسجيل الدخول</button>
+    </div>
+
+    <!-- نموذج إنشاء حساب طالب -->
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="studentName">الاسم الكامل للطالب</label>
+        <input type="text" id="studentName" placeholder="مثال: أحمد محمد علي" required />
+      </div>
+
+      <div class="form-group">
+        <label for="studentEmail">البريد الإلكتروني أو رقم الهاتف</label>
+        <input type="text" id="studentEmail" placeholder="example@email.com أو 77XXXXXXX" required />
+      </div>
+
+      <div class="form-group">
+        <label for="studentGrade">المرحلة / الصف الدراسي</label>
+        <select id="studentGrade" required>
+          <option value="">اختر الصف الدراسي...</option>
+          <option value="primary">المرحلة الابتدائية (1 - 6)</option>
+          <option value="preparatory">المرحلة الإعدادية (7 - 9)</option>
+          <option value="secondary_1">الأول الثانوي</option>
+          <option value="secondary_2">الثاني الثانوي</option>
+          <option value="secondary_3">الثالث الثانوي</option>
+          <option value="university">طالب جامعي / قارئ عام</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="studentPassword">كلمة المرور</label>
+        <input type="password" id="studentPassword" placeholder="أدخل كلمة مرور قوية (6 أحرف على الأقل)" required />
+      </div>
+
+      <button type="submit" class="submit-btn">تسجيل الطالب الآن</button>
+    </form>
+
+    <!-- نموذج تسجيل دخول طالب -->
+    <form id="loginForm" class="hidden">
+      <div class="form-group">
+        <label for="loginIdentifier">البريد الإلكتروني أو رقم الهاتف</label>
+        <input type="text" id="loginIdentifier" placeholder="أدخل بريدك أو رقم هاتفك" required />
+      </div>
+
+      <div class="form-group">
+        <label for="loginPassword">كلمة المرور</label>
+        <input type="password" id="loginPassword" placeholder="أدخل كلمة المرور" required />
+      </div>
+
+      <button type="submit" class="submit-btn">دخول إلى المنصة</button>
+    </form>
+
+    <div id="statusMsg" class="status-msg"></div>
+    <a href="index.html" class="back-link">العودة إلى الصفحة الرئيسية</a>
+  </div>
+
+  <script>
+    const tabRegister = document.getElementById('tabRegister');
+    const tabLogin = document.getElementById('tabLogin');
+    const registerForm = document.getElementById('registerForm');
+    const loginForm = document.getElementById('loginForm');
+    const statusMsg = document.getElementById('statusMsg');
+
+    // التبديل بين التسجيل والدخول
+    tabRegister.addEventListener('click', () => {
+      tabRegister.classList.add('active');
+      tabLogin.classList.remove('active');
+      registerForm.classList.remove('hidden');
+      loginForm.classList.add('hidden');
+      statusMsg.textContent = '';
+    });
+
+    tabLogin.addEventListener('click', () => {
+      tabLogin.classList.add('active');
+      tabRegister.classList.remove('active');
+      loginForm.classList.remove('hidden');
+      registerForm.classList.add('hidden');
+      statusMsg.textContent = '';
+    });
+
+    // حفظ بيانات الطالب محلياً + جاهز للربط مع السيرفر
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusMsg.classList.remove('error');
+
+      const studentData = {
+        name: document.getElementById('studentName').value.trim(),
+        identifier: document.getElementById('studentEmail').value.trim(),
+        grade: document.getElementById('studentGrade').value,
+        password: document.getElementById('studentPassword').value
+      };
+
+      if (studentData.password.length < 6) {
+        statusMsg.classList.add('error');
+        statusMsg.textContent = 'يجب أن تكون كلمة المرور 6 أحرف على الأقل.';
+        return;
+      }
+
+      // حفظ الحساب في المتصفح للتجربة الفورية
+      const students = JSON.parse(localStorage.getItem('sk_students') || '[]');
+      const exists = students.some(s => s.identifier === studentData.identifier);
+      if (exists) {
+        statusMsg.classList.add('error');
+        statusMsg.textContent = 'هذا البريد أو الرقم مسجل مسبقاً.';
+        return;
+      }
+
+      students.push(studentData);
+      localStorage.setItem('sk_students', JSON.stringify(students));
+      localStorage.setItem('sk_current_user', JSON.stringify({
+        name: studentData.name,
+        identifier: studentData.identifier,
+        grade: studentData.grade,
+        role: 'student'
+      }));
+
+      statusMsg.textContent = 'تم إنشاء حساب الطالب بنجاح! جاري نقلك للمنصة...';
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1200);
+    });
+
+    // تسجيل الدخول
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      statusMsg.classList.remove('error');
+
+      const identifier = document.getElementById('loginIdentifier').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      const students = JSON.parse(localStorage.getItem('sk_students') || '[]');
+      const found = students.find(s => s.identifier === identifier && s.password === password);
+
+      if (!found) {
+        statusMsg.classList.add('error');
+        statusMsg.textContent = 'بيانات الدخول غير صحيحة أو الحساب غير مسجل.';
+        return;
+      }
+
+      localStorage.setItem('sk_current_user', JSON.stringify({
+        name: found.name,
+        identifier: found.identifier,
+        grade: found.grade,
+        role: 'student'
+      }));
+
+      statusMsg.textContent = `أهلاً بك يا ${found.name}! جاري الدخول...`;
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
