@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMART KNOWLEDGE | بوابة الطلاب</title>
+  <style>
+    :root {
+      --bg-dark: #070811;
+      --card-bg: rgba(15, 17, 34, 0.92);
+      --border-glow: rgba(139, 92, 246, 0.45);
+      --gold: #f5b942;
+      --gold-soft: rgba(245, 185, 66, 0.18);
+      --purple: #8b5cf6;
+      --blue-glow: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --input-bg: rgba(9, 11, 24, 0.88);
+      --danger: #fb7185;
+      --success: #34d399;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 18% 15%, rgba(139, 92, 246, 0.24), transparent 42%),
+        radial-gradient(circle at 82% 20%, rgba(56, 189, 248, 0.2), transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(245, 185, 66, 0.14), transparent 45%),
+        var(--bg-dark);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-wrapper {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-glow);
+      border-radius: 22px;
+      padding: 28px 22px;
+      box-shadow:
+        0 0 28px rgba(139, 92, 246, 0.22),
+        0 0 48px rgba(56, 189, 248, 0.12),
+        inset 0 0 18px rgba(245, 185, 66, 0.05);
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .brand-badge {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      color: var(--gold);
+      background: var(--gold-soft);
+      border: 1px solid rgba(245, 185, 66, 0.45);
+      margin-bottom: 10px;
+    }
+
+    .brand-title {
+      font-size: 23px;
+      font-weight: 800;
+      color: var(--text-main);
+      text-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+    }
+
+    .brand-subtitle {
+      margin-top: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: rgba(8, 10, 22, 0.85);
+      padding: 6px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      margin-bottom: 22px;
+    }
+
+    .tab-btn {
+      padding: 11px 10px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .tab-btn.active {
+      color: #090b16;
+      background: linear-gradient(135deg, var(--gold), #ffd166);
+      box-shadow: 0 0 16px rgba(245, 185, 66, 0.4);
+    }
+
+    .form-panel {
+      display: none;
+    }
+
+    .form-panel.active {
+      display: block;
+    }
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(139, 92, 246, 0.32);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+      transition: 0.25s ease;
+    }
+
+    input::placeholder {
+      color: #64748b;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--blue-glow);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18), 0 0 14px rgba(139, 92, 246, 0.3);
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 13px;
+      border: none;
+      border-radius: 13px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--purple), #4f46e5 55%, #0284c7);
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.42), 0 0 12px rgba(56, 189, 248, 0.3);
+      transition: 0.25s ease;
+    }
+
+    .submit-btn:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .status-box {
+      margin-top: 16px;
+      padding: 11px 13px;
+      border-radius: 12px;
+      font-size: 13px;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .status-box.error {
+      display: block;
+      color: #fecdd3;
+      background: rgba(251, 113, 133, 0.14);
+      border: 1px solid rgba(251, 113, 133, 0.45);
+    }
+
+    .status-box.success {
+      display: block;
+      color: #a7f3d0;
+      background: rgba(52, 211, 153, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.45);
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .footer-note span {
+      color: var(--gold);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <main class="auth-wrapper">
+    <div class="brand-header">
+      <div class="brand-badge">SMART KNOWLEDGE</div>
+      <h1 class="brand-title">منصة المعرفة الذكية</h1>
+      <p class="brand-subtitle">بوابة تسجيل الدخول وإنشاء حساب الطلاب</p>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button type="button" class="tab-btn active" id="tabLogin" onclick="switchTab('login')">
+        تسجيل دخول طالب
+      </button>
+      <button type="button" class="tab-btn" id="tabRegister" onclick="switchTab('register')">
+        حساب طالب جديد
+      </button>
+    </div>
+
+    <!-- نموذج تسجيل الدخول بالبريد الإلكتروني -->
+    <form class="form-panel active" id="loginForm" onsubmit="handleLogin(event)">
+      <div class="field">
+        <label for="loginEmail">البريد الإلكتروني</label>
+        <input
+          type="email"
+          id="loginEmail"
+          name="email"
+          placeholder="student@example.com"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label for="loginPassword">كلمة المرور</label>
+        <input
+          type="password"
+          id="loginPassword"
+          name="password"
+          placeholder="••••••••"
+          required
+        />
+      </div>
+
+      <button type="submit" class="submit-btn" id="loginBtn">دخول إلى المنصة</button>
+    </form>
+
+    <!-- نموذج تسجيل طالب جديد بالبريد الإلكتروني -->
+    <form class="form-panel" id="registerForm" onsubmit="handleRegister(event)">
+      <div class="field">
+        <label for="regName">الاسم الكامل للطالب</label>
+        <input
+          type="text"
+          id="regName"
+          name="fullName"
+          placeholder="اكتب اسمك الكامل"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label for="regEmail">البريد الإلكتروني</label>
+        <input
+          type="email"
+          id="regEmail"
+          name="email"
+          placeholder="student@example.com"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label for="regGrade">المرحلة / الصف الدراسي</label>
+        <select id="regGrade" name="grade" required>
+          <option value="" disabled selected>اختر الصف الدراسي</option>
+          <option value="ابتدائي">المرحلة الابتدائية</option>
+          <option value="متوسط">المرحلة المتوسطة / الإعدادية</option>
+          <option value="ثانوي">المرحلة الثانوية</option>
+          <option value="جامعي">المرحلة الجامعية</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="regPassword">كلمة المرور</label>
+        <input
+          type="password"
+          id="regPassword"
+          name="password"
+          placeholder="6 أحرف أو أكثر"
+          minlength="6"
+          required
+        />
+      </div>
+
+      <button type="submit" class="submit-btn" id="registerBtn">إنشاء حساب الطالب</button>
+    </form>
+
+    <div class="status-box" id="statusBox"></div>
+
+    <div class="footer-note">
+      مخصص للطلاب فقط — <span>SMART KNOWLEDGE</span>
+    </div>
+  </main>
+
+  <script>
+    // غيّر هذا الرابط إلى رابط سيرفرك على Render إذا كانت الصفحة على دومين مختلف
+    const API_BASE_URL = "";
+
+    function switchTab(mode) {
+      const isLogin = mode === "login";
+      document.getElementById("tabLogin").classList.toggle("active", isLogin);
+      document.getElementById("tabRegister").classList.toggle("active", !isLogin);
+      document.getElementById("loginForm").classList.toggle("active", isLogin);
+      document.getElementById("registerForm").classList.toggle("active", !isLogin);
+      hideStatus();
+    }
+
+    function showStatus(message, type = "error") {
+      const box = document.getElementById("statusBox");
+      box.textContent = message;
+      box.className = `status-box ${type}`;
+    }
+
+    function hideStatus() {
+      const box = document.getElementById("statusBox");
+      box.textContent = "";
+      box.className = "status-box";
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      hideStatus();
+
+      const btn = document.getElementById("loginBtn");
+      const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+      const password = document.getElementById("loginPassword").value;
+
+      btn.disabled = true;
+      btn.textContent = "جاري التحقق...";
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/students/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password, role: "student" })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || "تعذر تسجيل الدخول، تحقق من البريد وكلمة المرور.");
+        }
+
+        if (data.token) {
+          localStorage.setItem("sk_student_token", data.token);
+        }
+        localStorage.setItem("sk_student_user", JSON.stringify(data.student || { email, role: "student" }));
+
+        showStatus("تم تسجيل الدخول بنجاح! جاري تحويلك...", "success");
+        setTimeout(() => {
+          window.location.href = data.redirectUrl || "/index.html";
+        }, 800);
+      } catch (err) {
+        showStatus(err.message, "error");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "دخول إلى المنصة";
+      }
+    }
+
+    async function handleRegister(event) {
+      event.preventDefault();
+      hideStatus();
+
+      const btn = document.getElementById("registerBtn");
+      const fullName = document.getElementById("regName").value.trim();
+      const email = document.getElementById("regEmail").value.trim().toLowerCase();
+      const grade = document.getElementById("regGrade").value;
+      const password = document.getElementById("regPassword").value;
+
+      btn.disabled = true;
+      btn.textContent = "جاري إنشاء الحساب...";
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/students/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fullName, email, grade, password, role: "student" })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || "تعذر إنشاء الحساب، ربما البريد مسجل مسبقاً.");
+        }
+
+        showStatus("تم إنشاء حساب الطالب بنجاح! يمكنك الآن تسجيل الدخول.", "success");
+        document.getElementById("registerForm").reset();
+        setTimeout(() => {
+          switchTab("login");
+          document.getElementById("loginEmail").value = email;
+        }, 900);
+      } catch (err) {
+        showStatus(err.message, "error");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "إنشاء حساب الطالب";
+      }
+    }
+  </script>
+</body>
+</html>
