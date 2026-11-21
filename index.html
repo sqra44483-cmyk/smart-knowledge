@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>منصة المعرفة الذكية | SMART KNOWLEDGE</title>
+  <style>
+    :root {
+      --bg-dark: #07070b;
+      --bg-card: #11111a;
+      --bg-input: #171724;
+      --gold: #f5b942;
+      --purple: #8b5cf6;
+      --purple-soft: rgba(139, 92, 246, 0.18);
+      --blue-glow: #38bdf8;
+      --blue-soft: rgba(56, 189, 248, 0.16);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(148, 163, 184, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.22), transparent 40%),
+        radial-gradient(circle at 85% 20%, rgba(56, 189, 248, 0.18), transparent 42%),
+        radial-gradient(circle at 50% 95%, rgba(245, 185, 66, 0.14), transparent 45%),
+        var(--bg-dark);
+      color: var(--text-main);
+      padding: 20px 14px 48px;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(17, 17, 26, 0.95), rgba(23, 23, 36, 0.9));
+      border: 1px solid rgba(245, 185, 66, 0.35);
+      box-shadow: 0 0 28px rgba(56, 189, 248, 0.12), 0 12px 30px rgba(0, 0, 0, 0.55);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand h1 {
+      font-size: 1.45rem;
+      color: var(--gold);
+      text-shadow: 0 0 14px rgba(245, 185, 66, 0.35);
+    }
+
+    .brand span {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--blue-glow);
+      letter-spacing: 1.5px;
+      margin-top: 4px;
+    }
+
+    .status-pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--purple-soft);
+      border: 1px solid rgba(139, 92, 246, 0.45);
+      color: #e9d5ff;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--blue-glow);
+      box-shadow: 0 0 10px var(--blue-glow);
+    }
+
+    .nav-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .tab-btn {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 12px 10px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      color: var(--text-main);
+      border-color: var(--blue-glow);
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(56, 189, 248, 0.16));
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.22);
+    }
+
+    .card {
+      background: rgba(17, 17, 26, 0.94);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+      display: none;
+    }
+
+    .card.active {
+      display: block;
+      animation: fadeIn 0.22s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .card-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.86rem;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-input);
+      color: var(--text-main);
+      font-size: 0.94rem;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--blue-glow);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.16);
+    }
+
+    .btn {
+      padding: 11px 18px;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #f5b942, #d97706);
+      color: #09090d;
+      box-shadow: 0 0 16px rgba(245, 185, 66, 0.28);
+    }
+
+    .btn-blue {
+      background: linear-gradient(135deg, #38bdf8, #8b5cf6);
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+    }
+
+    .btn-danger {
+      background: rgba(244, 63, 94, 0.16);
+      border: 1px solid rgba(244, 63, 94, 0.45);
+      color: #fda4af;
+      padding: 6px 12px;
+      font-size: 0.82rem;
+    }
+
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .alert {
+      margin-top: 14px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      display: none;
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    .alert-success {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+    }
+
+    .alert-error {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: #fda4af;
+    }
+
+    .student-banner {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--blue-soft);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      display: none;
+    }
+
+    .student-banner.active {
+      display: block;
+    }
+
+    .admin-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat-box {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .stat-box .num {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--blue-glow);
+    }
+
+    .stat-box .lbl {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+      background: var(--bg-input);
+    }
+
+    th, td {
+      padding: 12px 14px;
+      text-align: right;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+
+    th {
+      background: rgba(139, 92, 246, 0.16);
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 28px 14px;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <h1>منصة المعرفة الذكية</h1>
+        <span>SMART KNOWLEDGE</span>
+      </div>
+      <div class="status-pill">
+        <span class="dot"></span>
+        <span id="sessionText">وضع الزائر</span>
+      </div>
+    </header>
+
+    <div class="nav-tabs">
+      <button class="tab-btn active" data-tab="registerTab" onclick="switchTab('registerTab', this)">
+        تسجيل طالب جديد
+      </button>
+      <button class="tab-btn" data-tab="loginTab" onclick="switchTab('loginTab', this)">
+        دخول الطالب
+      </button>
+      <button class="tab-btn" data-tab="adminTab" onclick="switchTab('adminTab', this)">
+        لوحة المدير 🔒
+      </button>
+    </div>
+
+    <!-- تسجيل الطلاب -->
+    <section class="card active" id="registerTab">
+      <h2 class="card-title">تسجيل حساب طالب جديد</h2>
+      <p class="card-subtitle">يتم حفظ بيانات الطالب مباشرة في قاعدة بيانات المنصة.</p>
+
+      <form onsubmit="handleStudentRegister(event)">
+        <div class="form-grid">
+          <div class="field">
+            <label for="regName">الاسم الكامل *</label>
+            <input type="text" id="regName" required placeholder="مثال: أحمد محمد" />
+          </div>
+          <div class="field">
+            <label for="regEmail">البريد الإلكتروني *</label>
+            <input type="email" id="regEmail" required placeholder="student@example.com" />
+          </div>
+          <div class="field">
+            <label for="regGrade">المرحلة / الصف الدراسي *</label>
+            <select id="regGrade" required>
+              <option value="">اختر المرحلة الدراسية</option>
+              <option value="المرحلة الابتدائية">المرحلة الابتدائية</option>
+              <option value="المرحلة الإعدادية">المرحلة الإعدادية</option>
+              <option value="المرحلة الثانوية">المرحلة الثانوية</option>
+              <option value="المرحلة الجامعية">المرحلة الجامعية</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="regPassword">كلمة المرور *</label>
+            <input type="password" id="regPassword" required minlength="6" placeholder="6 أحرف أو أكثر" />
+          </div>
+        </div>
+
+        <div class="actions-row">
+          <button type="submit" id="regBtn" class="btn btn-gold">إنشاء حساب الطالب</button>
+        </div>
+      </form>
+
+      <div id="regAlert" class="alert"></div>
+
+      <div id="activeStudentBanner" class="student-banner">
+        <strong>مرحباً بك يا <span id="activeStudentName"></span>!</strong>
+        <p style="margin-top:6px; font-size:0.88rem; color:#cbd5e1;">
+          البريد: <span id="activeStudentEmail"></span> | المرحلة: <span id="activeStudentGrade"></span>
+        </p>
+        <div class="actions-row" style="margin-top:12px;">
+          <button type="button" class="btn btn-outline" onclick="logoutStudent()">تسجيل خروج الطالب</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- دخول الطالب -->
+    <section class="card" id="loginTab">
+      <h2 class="card-title">تسجيل دخول الطالب</h2>
+      <p class="card-subtitle">أدخل بياناتك للوصول إلى حسابك.</p>
+
+      <form onsubmit="handleStudentLogin(event)">
+        <div class="form-grid">
+          <div class="field">
+            <label for="loginEmail">البريد الإلكتروني *</label>
+            <input type="email" id="loginEmail" required placeholder="student@example.com" />
+          </div>
+          <div class="field">
+            <label for="loginPassword">كلمة المرور *</label>
+            <input type="password" id="loginPassword" required placeholder="أدخل كلمة المرور" />
+          </div>
+        </div>
+
+        <div class="actions-row">
+          <button type="submit" id="loginBtn" class="btn btn-blue">دخول</button>
+        </div>
+      </form>
+
+      <div id="loginAlert" class="alert"></div>
+    </section>
+
+    <!-- لوحة المدير المحمية -->
+    <section class="card" id="adminTab">
+      <div id="adminLockScreen">
+        <h2 class="card-title">لوحة تحكم المدير (محمية عبر الخادم)</h2>
+        <p class="card-subtitle">يتم التحقق من كلمة المرور في الخادم قبل عرض بيانات الطلاب.</p>
+
+        <form onsubmit="handleAdminUnlock(event)">
+          <div class="field" style="max-width: 380px;">
+            <label for="adminPassInput">كلمة مرور المدير *</label>
+            <input type="password" id="adminPassInput" required placeholder="أدخل كلمة مرور المدير" />
+          </div>
+          <div class="actions-row">
+            <button type="submit" id="adminUnlockBtn" class="btn btn-gold">فتح لوحة المدير</button>
+          </div>
+        </form>
+
+        <div id="adminLockAlert" class="alert"></div>
+      </div>
+
+      <div id="adminPanelContent" style="display: none;">
+        <div class="admin-toolbar">
+          <div>
+            <h2 class="card-title">إدارة الطلاب المسجلين</h2>
+            <p class="card-subtitle" style="margin-bottom:0;">بيانات حية من قاعدة بيانات PostgreSQL.</p>
+          </div>
+          <div class="actions-row">
+            <button type="button" class="btn btn-blue" onclick="refreshAdminData()">تحديث</button>
+            <button type="button" class="btn btn-outline" onclick="lockAdminPanel()">قفل اللوحة 🔒</button>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="num" id="totalStudentsCount">0</div>
+            <div class="lbl">إجمالي الطلاب المسجلين</div>
+          </div>
+          <div class="stat-box">
+            <div class="num" id="latestStudentGrade">-</div>
+            <div class="lbl">مرحلة أحدث طالب</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <input
+            type="search"
+            id="adminSearchInput"
+            oninput="renderStudentsTable()"
+            placeholder="ابحث بالاسم أو البريد الإلكتروني أو المرحلة..."
+          />
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>الاسم</th>
+                <th>البريد الإلكتروني</th>
+                <th>المرحلة</th>
+                <th>تاريخ التسجيل</th>
+                <th>إجراء</th>
+              </tr>
+            </thead>
+            <tbody id="studentsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // إذا كان الخادم على رابط Render منفصل، ضع الرابط هنا مثل: "https://smart-knowledge-server.onrender.com"
+    const API_BASE_URL = "";
+
+    let cachedStudents = [];
+
+    function showAlert(id, msg, type = "success") {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.className = `alert show alert-${type}`;
+    }
+
+    function clearAlert(id) {
+      const el = document.getElementById(id);
+      el.className = "alert";
+      el.textContent = "";
+    }
+
+    function switchTab(tabId, btnEl) {
+      document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+      if (btnEl) btnEl.classList.add("active");
+      else document.querySelector(`.tab-btn[data-tab="${tabId}"]`)?.classList.add("active");
+
+      if (tabId === "adminTab") syncAdminView();
+    }
+
+    async function handleStudentRegister(e) {
+      e.preventDefault();
+      clearAlert("regAlert");
+      const btn = document.getElementById("regBtn");
+      btn.disabled = true;
+
+      const payload = {
+        name: document.getElementById("regName").value,
+        email: document.getElementById("regEmail").value,
+        grade: document.getElementById("regGrade").value,
+        password: document.getElementById("regPassword").value
+      };
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/students/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          showAlert("regAlert", data.error || "تعذر إنشاء الحساب.", "error");
+          return;
+        }
+
+        localStorage.setItem("sk_current_student", JSON.stringify(data.student));
+        e.target.reset();
+        showAlert("regAlert", "تم تسجيل الطالب وحفظه في قاعدة البيانات بنجاح!", "success");
+        syncStudentSession();
+      } catch {
+        showAlert("regAlert", "تعذر الاتصال بالخادم.", "error");
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function handleStudentLogin(e) {
+      e.preventDefault();
+      clearAlert("loginAlert");
+      const btn = document.getElementById("loginBtn");
+      btn.disabled = true;
+
+      const payload = {
+        email: document.getElementById("loginEmail").value,
+        password: document.getElementById("loginPassword").value
+      };
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/students/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          showAlert("loginAlert", data.error || "فشل تسجيل الدخول.", "error");
+          return;
+        }
+
+        localStorage.setItem("sk_current_student", JSON.stringify(data.student));
+        e.target.reset();
+        showAlert("loginAlert", `مرحباً بك يا ${data.student.name}!`, "success");
+        syncStudentSession();
+        switchTab("registerTab");
+      } catch {
+        showAlert("loginAlert", "تعذر الاتصال بالخادم.", "error");
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function logoutStudent() {
+      localStorage.removeItem("sk_current_student");
+      syncStudentSession();
+    }
+
+    function syncStudentSession() {
+      const raw = localStorage.getItem("sk_current_student");
+      const banner = document.getElementById("activeStudentBanner");
+      const sessionText = document.getElementById("sessionText");
+
+      if (!raw) {
+        banner.classList.remove("active");
+        if (!sessionStorage.getItem("sk_admin_pass")) sessionText.textContent = "وضع الزائر";
+        return;
+      }
+
+      const student = JSON.parse(raw);
+      document.getElementById("activeStudentName").textContent = student.name;
+      document.getElementById("activeStudentEmail").textContent = student.email;
+      document.getElementById("activeStudentGrade").textContent = student.grade;
+      banner.classList.add("active");
+
+      if (!sessionStorage.getItem("sk_admin_pass")) {
+        sessionText.textContent = `طالب: ${student.name}`;
+      }
+    }
+
+    async function handleAdminUnlock(e) {
+      e.preventDefault();
+      clearAlert("adminLockAlert");
+      const btn = document.getElementById("adminUnlockBtn");
+      btn.disabled = true;
+
+      const adminPasscode = document.getElementById("adminPassInput").value;
+      const ok = await fetchAdminStudents(adminPasscode);
+
+      btn.disabled = false;
+      if (!ok) {
+        showAlert("adminLockAlert", "كلمة مرور المدير غير صحيحة أو تعذر الاتصال.", "error");
+        return;
+      }
+
+      sessionStorage.setItem("sk_admin_pass", adminPasscode);
+      document.getElementById("adminPassInput").value = "";
+      syncAdminView();
+    }
+
+    async function fetchAdminStudents(adminPasscode) {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/admin/students`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ adminPasscode })
+        });
+        if (!res.ok) return false;
+        const data = await res.json();
+        cachedStudents = data.students || [];
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    async function refreshAdminData() {
+      const pass = sessionStorage.getItem("sk_admin_pass");
+      if (!pass) return;
+      const ok = await fetchAdminStudents(pass);
+      if (ok) renderStudentsTable();
+    }
+
+    function lockAdminPanel() {
+      sessionStorage.removeItem("sk_admin_pass");
+      cachedStudents = [];
+      syncAdminView();
+    }
+
+    async function syncAdminView() {
+      const pass = sessionStorage.getItem("sk_admin_pass");
+      const lockScreen = document.getElementById("adminLockScreen");
+      const panelContent = document.getElementById("adminPanelContent");
+      const sessionText = document.getElementById("sessionText");
+
+      if (pass) {
+        lockScreen.style.display = "none";
+        panelContent.style.display = "block";
+        sessionText.textContent = "وضع المدير (محمي)";
+        await refreshAdminData();
+      } else {
+        lockScreen.style.display = "block";
+        panelContent.style.display = "none";
+        syncStudentSession();
+      }
+    }
+
+    function renderStudentsTable() {
+      const query = (document.getElementById("adminSearchInput")?.value || "").trim().toLowerCase();
+      document.getElementById("totalStudentsCount").textContent = cachedStudents.length;
+      document.getElementById("latestStudentGrade").textContent = cachedStudents[0]?.grade || "-";
+
+      const filtered = cachedStudents.filter(s =>
+        s.name.toLowerCase().includes(query) ||
+        s.email.toLowerCase().includes(query) ||
+        s.grade.toLowerCase().includes(query)
+      );
+
+      const tbody = document.getElementById("studentsTableBody");
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="empty-state">لا توجد بيانات طلاب مطابقة حالياً.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map((s, idx) => {
+        const dateStr = s.created_at ? new Date(s.created_at).toLocaleDateString("ar-EG") : "-";
+        return `
+          <tr>
+            <td>${idx + 1}</td>
+            <td>${escapeHtml(s.name)}</td>
+            <td>${escapeHtml(s.email)}</td>
+            <td>${escapeHtml(s.grade)}</td>
+            <td>${dateStr}</td>
+            <td>
+              <button type="button" class="btn btn-danger" onclick="deleteStudent(${s.id})">حذف</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    async function deleteStudent(id) {
+      const pass = sessionStorage.getItem("sk_admin_pass");
+      if (!pass) return;
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/admin/students/${id}`, {
+          method: "DELETE",
+          headers: { "x-admin-passcode": pass }
+        });
+        if (res.ok) {
+          await refreshAdminData();
+        }
+      } catch {
+        alert("تعذر حذف الطالب.");
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[m]));
+    }
+
+    syncStudentSession();
+    syncAdminView();
+  </script>
+</body>
+</html>
