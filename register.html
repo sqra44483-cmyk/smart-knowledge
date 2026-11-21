@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+<title>إنشاء حساب طالب | المعرفة الذكية</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(145deg, #080808, #171020);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 430px;
+  background: #111;
+  border: 1px solid #b99135;
+  border-radius: 22px;
+  padding: 30px 24px;
+  box-shadow: 0 0 30px #b9913525;
+}
+
+.logo {
+  text-align: center;
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+h1 {
+  text-align: center;
+  color: #e4bd61;
+  font-size: 25px;
+  margin: 10px 0;
+}
+
+.subtitle {
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+label {
+  display: block;
+  color: #e4bd61;
+  margin: 15px 0 8px;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  background: #1d1d1d;
+  color: white;
+  font-size: 15px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #d5ad4c;
+}
+
+.password-box {
+  position: relative;
+}
+
+.password-box input {
+  padding-left: 65px;
+}
+
+.show {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #e4bd61;
+  cursor: pointer;
+}
+
+button.submit {
+  width: 100%;
+  margin-top: 25px;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #a77a20, #f0d17b);
+  color: #111;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.message {
+  display: none;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 9px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.error {
+  display: block;
+  background: #4b1717;
+  color: #ffaaaa;
+}
+
+.success {
+  display: block;
+  background: #173d25;
+  color: #a7f0b8;
+}
+
+.links {
+  text-align: center;
+  margin-top: 22px;
+  color: #aaa;
+  font-size: 14px;
+}
+
+a {
+  color: #e4bd61;
+  text-decoration: none;
+}
+
+.footer {
+  text-align: center;
+  color: #666;
+  font-size: 12px;
+  margin-top: 25px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="logo">📚</div>
+
+  <h1>المعرفة الذكية</h1>
+
+  <div class="subtitle">
+    أنشئ حسابك وابدأ رحلتك التعليمية
+  </div>
+
+  <form id="registerForm">
+
+    <label for="name">الاسم الكامل</label>
+    <input
+      type="text"
+      id="name"
+      placeholder="اكتب اسمك الكامل"
+      maxlength="100"
+      autocomplete="name"
+      required
+    >
+
+    <label for="email">البريد الإلكتروني</label>
+    <input
+      type="email"
+      id="email"
+      placeholder="example@email.com"
+      autocomplete="email"
+      required
+    >
+
+    <label for="password">كلمة المرور</label>
+
+    <div class="password-box">
+      <input
+        type="password"
+        id="password"
+        placeholder="10 أحرف على الأقل"
+        minlength="10"
+        autocomplete="new-password"
+        required
+      >
+      <button type="button" class="show"
+        onclick="togglePassword('password',this)">
+        إظهار
+      </button>
+    </div>
+
+    <label for="confirmPassword">تأكيد كلمة المرور</label>
+
+    <div class="password-box">
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="أعد كتابة كلمة المرور"
+        autocomplete="new-password"
+        required
+      >
+      <button type="button" class="show"
+        onclick="togglePassword('confirmPassword',this)">
+        إظهار
+      </button>
+    </div>
+
+    <button type="submit" class="submit" id="submitBtn">
+      إنشاء حساب جديد
+    </button>
+
+    <div id="message" class="message" role="status"
+      aria-live="polite"></div>
+
+  </form>
+
+  <div class="links">
+    لديك حساب بالفعل؟
+    <a href="student-auth.html">تسجيل الدخول</a>
+  </div>
+
+  <div class="footer">
+    © المعرفة الذكية - Smart Knowledge
+  </div>
+
+</div>
+
+<script>
+
+// ضع رابط السيرفر الحقيقي هنا
+const API_BASE_URL = "https://YOUR-SERVER.onrender.com";
+
+function togglePassword(id, button) {
+  const input = document.getElementById(id);
+
+  if (input.type === "password") {
+    input.type = "text";
+    button.textContent = "إخفاء";
+  } else {
+    input.type = "password";
+    button.textContent = "إظهار";
+  }
+}
+
+const form = document.getElementById("registerForm");
+const message = document.getElementById("message");
+const submitBtn = document.getElementById("submitBtn");
+
+function showMessage(text, type) {
+  message.textContent = text;
+  message.className = "message " + type;
+}
+
+form.addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const confirmPassword =
+    document.getElementById("confirmPassword").value;
+
+  if (password.length < 10) {
+    showMessage("كلمة المرور يجب ألا تقل عن 10 أحرف", "error");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    showMessage("كلمتا المرور غير متطابقتين", "error");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "جارٍ إنشاء الحساب...";
+
+  try {
+
+    const response = await fetch(
+      API_BASE_URL + "/api/auth/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "تعذر إنشاء الحساب");
+    }
+
+    showMessage(
+      "تم إنشاء حسابك بنجاح! يمكنك الآن تسجيل الدخول.",
+      "success"
+    );
+
+    form.reset();
+
+    setTimeout(() => {
+      window.location.href = "student-auth.html";
+    }, 1800);
+
+  } catch (error) {
+
+    showMessage(
+      error.message === "Failed to fetch"
+        ? "تعذر الاتصال بالسيرفر. تحقق من إعدادات الاتصال."
+        : error.message,
+      "error"
+    );
+
+  } finally {
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = "إنشاء حساب جديد";
+
+  }
+});
+
+</script>
+
+</body>
+</html>
