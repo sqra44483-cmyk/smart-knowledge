@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+
+<title>دخول الطلاب | المعرفة الذكية</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(145deg,#080808,#1a1025);
+  color: white;
+}
+
+.container {
+  width: 100%;
+  max-width: 430px;
+  padding: 30px 24px;
+  background: #111;
+  border: 1px solid #bd963e;
+  border-radius: 22px;
+  box-shadow: 0 0 30px #a8793030;
+}
+
+.logo {
+  text-align: center;
+  font-size: 48px;
+}
+
+h1 {
+  text-align: center;
+  color: #e7c36b;
+  font-size: 25px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #aaa;
+  margin-bottom: 28px;
+  font-size: 14px;
+}
+
+label {
+  display: block;
+  color: #e7c36b;
+  margin: 17px 0 8px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  background: #1c1c1c;
+  color: white;
+  border: 1px solid #494949;
+  border-radius: 10px;
+  outline: none;
+  font-size: 15px;
+}
+
+input:focus {
+  border-color: #e7c36b;
+}
+
+.password-box {
+  position: relative;
+}
+
+.password-box input {
+  padding-left: 70px;
+}
+
+.show {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #e7c36b;
+  cursor: pointer;
+}
+
+.submit {
+  width: 100%;
+  margin-top: 25px;
+  padding: 15px;
+  border: none;
+  border-radius: 11px;
+  background: linear-gradient(90deg,#a77a20,#f0d17b);
+  color: #111;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: .6;
+}
+
+.message {
+  display: none;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 9px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.error {
+  display: block;
+  background: #501818;
+  color: #ffb0b0;
+}
+
+.success {
+  display: block;
+  background: #173e26;
+  color: #a9f2ba;
+}
+
+.links {
+  text-align: center;
+  margin-top: 23px;
+  color: #aaa;
+  font-size: 14px;
+  line-height: 2.2;
+}
+
+a {
+  color: #e7c36b;
+  text-decoration: none;
+}
+
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  padding: 11px;
+  border: 1px solid #7055a2;
+  border-radius: 10px;
+  color: #d9c5ff;
+}
+
+.footer {
+  text-align: center;
+  color: #666;
+  font-size: 12px;
+  margin-top: 25px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="logo">🎓</div>
+
+  <h1>المعرفة الذكية</h1>
+
+  <div class="subtitle">
+    مرحباً بك مجدداً في منصتك التعليمية
+  </div>
+
+  <form id="loginForm">
+
+    <label for="email">البريد الإلكتروني</label>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="example@email.com"
+      autocomplete="username"
+      required
+    >
+
+    <label for="password">كلمة المرور</label>
+
+    <div class="password-box">
+
+      <input
+        type="password"
+        id="password"
+        placeholder="أدخل كلمة المرور"
+        autocomplete="current-password"
+        required
+      >
+
+      <button
+        type="button"
+        class="show"
+        onclick="togglePassword()"
+      >إظهار</button>
+
+    </div>
+
+    <button
+      type="submit"
+      class="submit"
+      id="submitBtn"
+    >
+      تسجيل الدخول
+    </button>
+
+    <div
+      id="message"
+      class="message"
+      role="status"
+      aria-live="polite"
+    ></div>
+
+  </form>
+
+  <div class="links">
+
+    ليس لديك حساب؟
+    <a href="register.html">إنشاء حساب طالب</a>
+
+    <br>
+
+    <a href="index.html">العودة إلى الصفحة الرئيسية</a>
+
+  </div>
+
+  <div class="footer">
+    © Smart Knowledge - المعرفة الذكية
+  </div>
+
+</div>
+
+<script>
+
+// استبدل الرابط برابط السيرفر الحقيقي عند نشره
+const API_BASE_URL = "https://YOUR-SERVER.onrender.com";
+
+function togglePassword() {
+
+  const input = document.getElementById("password");
+  const button = document.querySelector(".show");
+
+  if (input.type === "password") {
+    input.type = "text";
+    button.textContent = "إخفاء";
+  } else {
+    input.type = "password";
+    button.textContent = "إظهار";
+  }
+
+}
+
+function showMessage(text,type) {
+
+  const message = document.getElementById("message");
+
+  message.textContent = text;
+  message.className = "message " + type;
+
+}
+
+const form = document.getElementById("loginForm");
+const submitBtn = document.getElementById("submitBtn");
+
+form.addEventListener("submit",async function(event) {
+
+  event.preventDefault();
+
+  const email = document.getElementById("email")
+    .value.trim();
+
+  const password = document.getElementById("password")
+    .value;
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "جارٍ التحقق...";
+
+  try {
+
+    const response = await fetch(
+      API_BASE_URL + "/api/auth/login",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          email,
+          password
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "تعذر تسجيل الدخول"
+      );
+    }
+
+    if (!data.user || data.user.role !== "student") {
+
+      throw new Error(
+        "هذا الحساب غير مخصص لدخول الطلاب"
+      );
+
+    }
+
+    if (!data.token) {
+      throw new Error("لم يتم استلام رمز الدخول");
+    }
+
+    // حفظ جلسة الطالب
+    sessionStorage.setItem(
+      "studentToken",
+      data.token
+    );
+
+    sessionStorage.setItem(
+      "studentUser",
+      JSON.stringify(data.user)
+    );
+
+    showMessage(
+      "تم تسجيل الدخول بنجاح",
+      "success"
+    );
+
+    submitBtn.textContent = "تم الدخول بنجاح";
+
+    setTimeout(function() {
+
+      window.location.href = "index.html";
+
+    },1500);
+
+  } catch(error) {
+
+    showMessage(
+      error.message === "Failed to fetch"
+        ? "تعذر الاتصال بالسيرفر"
+        : error.message,
+      "error"
+    );
+
+  } finally {
+
+    submitBtn.disabled = false;
+
+    if (submitBtn.textContent !== "تم الدخول بنجاح") {
+      submitBtn.textContent = "تسجيل الدخول";
+    }
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
